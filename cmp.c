@@ -94,12 +94,8 @@ int compare(char *file1, char *file2 , int vFlag , int iFlag)
     // We are in the case where the i flag is set to 0 and v flag set to 1
     if(vFlag == 1 && iFlag == 0)
     {
-        printf("case v == 1 , i == 0\n");
         while((c1 = fgetc(f1)) != EOF && ((c2 = fgetc(f2)) != EOF))
         {
-            printf("While iterating\n");
-            printf("This is c1:%c\n" , c1);
-            printf("This is c2:%c\n" , c2);
             if(c1 != c2)
             {
                 printf("not equal\n");
@@ -130,7 +126,7 @@ int compare(char *file1, char *file2 , int vFlag , int iFlag)
         {
             if(!checkLetter(c1,c2))
             {
-                printf("not equal");
+                printf("not equal\n");
                 return 0;
             }
         }
@@ -178,16 +174,17 @@ int main() {
     int result;
 
 	while (1) {
-	    printf("hello: \n");
+        printf("hello:");
+        fflush(stdin);
 	    fgets(command, 1024, stdin);
 	    command[strlen(command) - 1] = '\0'; // replace \n with \0
-        
+        	    
+
 	    /* parse command line */
 	    i = 0;
 	    token = strtok (command," ");
 	    while (token != NULL)
 	    {
-        printf("in second while\n");
 		argv[i] = token;
 		token = strtok (NULL, " ");
 		i++;
@@ -196,45 +193,34 @@ int main() {
 
 	    /* Is command empty */ 
 	    if (argv[0] == NULL){
-        printf("is empty\n");
 		continue;
         }
-       
+
         if (strcmp(argv[0], "cmp") == 0)
         {
             if (i == 3)
             {
-                printf("Case where i = 3\n");
                 result = compare(argv[1] , argv[2], 0 , 0);
             }
             else if(i == 5)
             {
-                printf("Case where i = 5\n");
                 result = compare(argv[1] , argv[2], 1 , 1);
             }
             else if(i == 4)
             {
-                printf("Case where i = 4\n");
                 if(strcmp(argv[3], "-i") == 0)
                 {
-                    printf("case -i\n");
                     result = compare(argv[1], argv[2], 0 , 1);
                 }
                 else
                 {
-                    printf("case -v\n");
                     result = compare(argv[1], argv[2], 1 , 0);
                 }
             }
-          
-
-
-
         }
 	    /* for commands not part of the shell command language */ 
 	    if (fork() == 0) { 
 		execvp(argv[0], argv);
-        printf("inside fork\n");
 		wait(NULL);
 	    }    
 	}
