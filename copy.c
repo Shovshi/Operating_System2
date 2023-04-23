@@ -110,7 +110,7 @@ int main()
 
     while (1)
     {
-        printf("hello: ");
+        printf("hello: \n");
         fgets(command, 1024, stdin);
         command[strlen(command) - 1] = '\0'; // replace \n with \0
 
@@ -156,7 +156,11 @@ int main()
         if (fork() == 0)
         {
             execvp(argv[0], argv);
-            wait(NULL);
+            exit(1); // exit child process
+        }
+        else
+        {
+            wait(NULL); // wait for child process to finish
         }
     }
 }

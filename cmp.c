@@ -174,7 +174,7 @@ int main() {
     int result;
 
 	while (1) {
-        printf("hello:");
+        printf("hello: \n");
         fflush(stdin);
 	    fgets(command, 1024, stdin);
 	    command[strlen(command) - 1] = '\0'; // replace \n with \0
@@ -219,10 +219,15 @@ int main() {
             }
         }
 	    /* for commands not part of the shell command language */ 
-	    if (fork() == 0) { 
-		execvp(argv[0], argv);
-		wait(NULL);
-	    }    
+	    if (fork() == 0)
+        {
+            execvp(argv[0], argv);
+            exit(1); // exit child process
+        }
+        else
+        {
+            wait(NULL); // wait for child process to finish
+        }  
 	}
     return result;
 }
